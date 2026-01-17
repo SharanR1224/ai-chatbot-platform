@@ -53,6 +53,8 @@ def chat_with_project(
 
     messages.append({"role": "user", "content": data.message})
 
+    print("DEBUG OPENROUTER KEY:", OPENROUTER_API_KEY)
+
     headers = {
     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
     "Content-Type": "application/json",
