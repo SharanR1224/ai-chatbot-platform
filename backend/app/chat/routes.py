@@ -58,9 +58,10 @@ def chat_with_project(
     headers = {
     "Authorization": f"Bearer {OPENROUTER_API_KEY}",
     "Content-Type": "application/json",
-    "HTTP-Referer": "https://chatbot-platform-demo.com",
+    "HTTP-Referer": "https://ai-chatbot-platform.onrender.com",
     "X-Title": "AI Chatbot Platform"
 }
+
 
 
 
