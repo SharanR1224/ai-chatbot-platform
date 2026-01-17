@@ -54,9 +54,12 @@ def chat_with_project(
     messages.append({"role": "user", "content": data.message})
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+    "Content-Type": "application/json",
+    "HTTP-Referer": "https://ai-chatbot-platform-orcin.vercel.app",
+    "X-Title": "AI Chatbot Platform"
+}
+
 
     payload = {
         "model": "mistralai/mistral-7b-instruct",
@@ -66,6 +69,10 @@ def chat_with_project(
     response = requests.post(OPENROUTER_URL, headers=headers, json=payload)
     result = response.json()
 
+    if "choices" not in result:
+        print("OPENROUTER ERROR:", result)
+        raise HTTPException(status_code=500, detail=str(result))
+
     bot_reply = result["choices"][0]["message"]["content"]
 
     bot_msg = Message(role="assistant", content=bot_reply, project_id=project.id)
@@ -73,6 +80,7 @@ def chat_with_project(
     db.commit()
 
     return {"reply": bot_reply}
+
 
 @router.get("/{project_id}")
 def get_chat_history(
